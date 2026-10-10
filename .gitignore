@@ -1,0 +1,38 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Local environment, config, logs
+.venv/
+venv/
+ENV/
+env/
+.env
+config.local.json
+*.log
+
+# PyCharm / JetBrains
+.idea/
+*.iws
+*.iml
+*.idea
+
+# Visual Studio Code
+.vscode/
+
+# Builds, packaging
+build/
+dist/
+*.spec
+
+# Tests, coverage
+.pytest_cache/
+.coverage
+htmlcov/
+
+# SQLite
+*.db
+*.db-journal
+*.sqlite
+*.sqlite3
