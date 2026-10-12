@@ -16,7 +16,6 @@ config.local.json
 .idea/
 *.iws
 *.iml
-*.idea
 
 # Visual Studio Code
 .vscode/
