@@ -1,0 +1,24 @@
+name: CI Tests
+
+on:
+  push:
+    branches: [ "**" ] 
+  pull_request:
+    branches: [ "**" ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    
+    container:
+      image: python:3.12-slim
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Verify python version
+        run: python --version
+
+      - name: Start tests
+        run: python -m unittest discover -s tests -v
