@@ -50,9 +50,11 @@ class XMRigApi:
                 error_body = err.read().decode("utf-8")
             except Exception:
                 pass
+            finally:
+                err.close()
 
             message = (
-                f"[xmrig/api] HTTP {err.code} ({err.reason}) for {url}. Error: {error_body}"
+                f"[xmrig] HTTP {err.code} ({err.reason}) for {url}. Error: {error_body}"
             )
             if err.code in (401, 403):
                 raise ApiAuthError(message) from err
@@ -60,10 +62,10 @@ class XMRigApi:
 
         except (urllib.error.URLError, TimeoutError) as err:
             raise ApiConnectionError(
-                f"[xmrig/api] Cant connection to {url}. Error: {err}"
+                f"[xmrig] Cant connection to {url}. Error: {err}"
             ) from err
 
         except json.JSONDecodeError as err:
             raise ApiError(
-                f"[xmrig/api] Response from {url} is not valid. Error: {err}"
+                f"[xmrig] Response from {url} is not valid. Error: {err}"
             ) from err
