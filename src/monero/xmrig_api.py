@@ -1,7 +1,7 @@
 import json
 import urllib.error
 import urllib.request
-from typing import Any, Optional
+from typing import Any
 
 try:
     from exceptions import ApiAuthError, ApiConnectionError, ApiError
@@ -14,7 +14,7 @@ class XMRigApi:
         self,
         ip: str,
         port: int,
-        access_token: Optional[str] = None,
+        access_token: str | None = None,
         timeout: float = 10.0,
     ) -> None:
         self.ip = ip
@@ -48,7 +48,7 @@ class XMRigApi:
             error_body = ""
             try:
                 error_body = err.read().decode("utf-8")
-            except Exception:
+            except (OSError, UnicodeDecodeError):
                 pass
             finally:
                 err.close()

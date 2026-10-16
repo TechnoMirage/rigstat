@@ -6,14 +6,15 @@ import unittest
 import urllib.error
 from unittest.mock import MagicMock, patch
 
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "src")))
+sys.path.insert(
+    0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "src"))
+)
 
 from exceptions import ApiAuthError, ApiConnectionError, ApiError, RigStatError
 from monero.xmrig_api import XMRigApi
 
 
 class TestXMRigApi(unittest.TestCase):
-
     TEST_IP = "127.0.0.1"
     TEST_PORT = 16000
     TEST_TOKEN = "test-token"
@@ -27,15 +28,16 @@ class TestXMRigApi(unittest.TestCase):
         )
 
     def test_base_url_formatting(self):
-        self.assertEqual(self.api.base_url, f"http://{self.TEST_IP}:{self.TEST_PORT}/2")
+        self.assertEqual(
+            self.api.base_url, f"http://{self.TEST_IP}:{self.TEST_PORT}/2"
+        )
 
     @patch("urllib.request.urlopen")
     def test_get_summary_success_with_token(self, mock_urlopen):
         mock_response = MagicMock()
-        mock_response.read.return_value = json.dumps({
-            "version": "6.21.0",
-            "hashrate": {"total": [1200.5]}
-        }).encode("utf-8")
+        mock_response.read.return_value = json.dumps(
+            {"version": "6.21.0", "hashrate": {"total": [1200.5]}}
+        ).encode("utf-8")
         mock_response.__enter__.return_value = mock_response
         mock_urlopen.return_value = mock_response
 
@@ -44,16 +46,22 @@ class TestXMRigApi(unittest.TestCase):
         self.assertEqual(data["version"], "6.21.0")
         self.assertEqual(data["hashrate"]["total"], [1200.5])
 
-        # Vérification des arguments passés à urlopen
         called_req = mock_urlopen.call_args[0][0]
         called_kwargs = mock_urlopen.call_args[1]
-        self.assertEqual(called_req.full_url, f"http://{self.TEST_IP}:{self.TEST_PORT}/2/summary")
-        self.assertEqual(called_req.headers["Authorization"], f"Bearer {self.TEST_TOKEN}")
+        self.assertEqual(
+            called_req.full_url,
+            f"http://{self.TEST_IP}:{self.TEST_PORT}/2/summary",
+        )
+        self.assertEqual(
+            called_req.headers["Authorization"], f"Bearer {self.TEST_TOKEN}"
+        )
         self.assertEqual(called_kwargs.get("timeout"), 5.0)
 
     @patch("urllib.request.urlopen")
     def test_get_summary_without_token(self, mock_urlopen):
-        client_no_token = XMRigApi(ip=self.TEST_IP, port=self.TEST_PORT, access_token=None)
+        client_no_token = XMRigApi(
+            ip=self.TEST_IP, port=self.TEST_PORT, access_token=None
+        )
 
         mock_response = MagicMock()
         mock_response.read.return_value = b"{}"

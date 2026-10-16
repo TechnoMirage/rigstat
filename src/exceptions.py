@@ -1,6 +1,6 @@
 import logging
 logging.basicConfig(
-    filename="../rigstat.log",
+    filename="../../rigstat.log",
     level=logging.ERROR,
     format="%(asctime)s [%(levelname)s] %(message)s"
 )

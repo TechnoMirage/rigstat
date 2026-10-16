@@ -20,6 +20,14 @@ jobs:
       - name: Verify python version
         run: python --version
 
+      - name: Install linter & formatter
+        run: pip install ruff
+
+      - name: Check linting and formatting
+        run: |
+          ruff check .
+          ruff format --check .
+
       - name: Start tests
         env:
           PYTHONPATH: src
